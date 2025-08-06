@@ -7,12 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals -->
-    <!-- Application Structure Plan: The application is structured as a single-page, tab-based learning module. Instead of linear slides, the content is organized into logical, thematic sections: 'The Big Picture', 'Core Components', 'Live Workflow', and 'Going Live'. This task-oriented design allows users to either follow a structured path or jump directly to the section most relevant to their needs. The core interaction is an.interactive diagram of the vMix UI, which is more engaging than a static image and promotes active learning by encouraging exploration. This structure was chosen to make the content more digestible and to provide a more intuitive, self-paced learning experience compared to a static presentation. -->
+    <!-- Application Structure Plan: The application is structured as a single-page, tab-based learning module. Instead of linear slides, the content is organized into logical, thematic sections: 'The Big Picture', 'Core Components', 'Live Workflow', 'Going Live', and 'Advanced Tutorial'. This task-oriented design allows users to either follow a structured path or jump directly to the section most relevant to their needs. The core interaction is an interactive diagram of the vMix UI, which is more engaging than a static image and promotes active learning by encouraging exploration. The advanced section uses a sub-navigation to simulate slides, providing a structured, animated deep-dive into complex topics. This structure was chosen to make the content more digestible and to provide a more intuitive, self-paced learning experience compared to a static presentation. -->
     <!-- Visualization & Content Choices: 
         - Report Info: vMix Interface Overview -> Goal: Inform/Organize -> Viz/Presentation: Interactive HTML/CSS Diagram -> Interaction: Hover to show tooltips with descriptions for each UI area. Justification: More engaging and memorable than a static labeled image. Allows users to explore at their own pace. Method: HTML divs with Tailwind CSS for layout, JS for hover interactions.
         - Report Info: Input Types -> Goal: Inform -> Viz/Presentation: Tabbed content cards -> Interaction: Click tabs to reveal details for each input type. Justification: Organizes a large amount of information cleanly, preventing cognitive overload. Method: HTML/Tailwind with JS to toggle visibility.
         - Report Info: Preview to Program Flow -> Goal: Explain a Process -> Viz/Presentation: Interactive HTML/CSS Flowchart -> Interaction: Click steps to highlight them and see corresponding explanations. Justification: Visualizes the core workflow dynamically, reinforcing the two-step process more effectively than static text. Method: HTML/Tailwind with JS for click events.
         - Report Info: Audio/Output sections -> Goal: Inform -> Viz/Presentation: Accordion-style collapsible sections. -> Interaction: Click to expand/collapse detailed information. Justification: Keeps the interface clean while providing deep-dive information on demand. Method: HTML/Tailwind with JS for toggling.
+        - Report Info: Advanced vMix Topics (Multi-Layering, Virtual Inputs, Shortcuts, Advanced Audio, NDI/SRT, Troubleshooting) -> Goal: Educate/Deep Dive -> Viz/Presentation: Sub-section "slides" with text and conceptual HTML/CSS diagrams/lists -> Interaction: Click sub-navigation buttons to transition between topics with fade animation. Justification: Breaks down complex topics into manageable, sequential chunks, enhancing learning flow. Method: HTML/Tailwind with JS for tab-like navigation and CSS transitions for animation.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -79,6 +80,24 @@
             transform: skewX(-10deg); /* Slight italic/slant effect */
             display: inline-block;
         }
+        .advanced-slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .advanced-slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .sub-nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .sub-nav-button.active {
+            border-bottom-color: #d97706; /* amber-600 */
+            color: #d97706;
+            background-color: #fffbeb; /* amber-50 */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -98,6 +117,7 @@
             <button class="nav-button py-4 px-6 text-lg font-medium text-gray-500 hover:text-amber-600" onclick="showSection('section2')">Core Components</button>
             <button class="nav-button py-4 px-6 text-lg font-medium text-gray-500 hover:text-amber-600" onclick="showSection('section3')">The Live Workflow</button>
             <button class="nav-button py-4 px-6 text-lg font-medium text-gray-500 hover:text-amber-600" onclick="showSection('section4')">Going Live</button>
+            <button class="nav-button py-4 px-6 text-lg font-medium text-gray-500 hover:text-amber-600" onclick="showSection('section5')">Advanced Tutorial</button>
         </nav>
 
         <main>
@@ -302,6 +322,119 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Section 5: Advanced Tutorial -->
+            <section id="section5" class="content-section">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-semibold text-gray-800">Advanced vMix Techniques</h2>
+                    <p class="mt-2 max-w-3xl mx-auto text-gray-600">Ready to take your vMix skills to the next level? This section dives into more advanced features and workflows that will elevate your live productions. Use the navigation below to explore different topics.</p>
+                </div>
+
+                <nav class="flex flex-wrap justify-center border-b border-gray-200 mb-8">
+                    <button class="sub-nav-button active py-3 px-4 text-md font-medium text-gray-500 hover:text-amber-600" onclick="showAdvancedSlide('advanced-slide-1')">Multi-Layering</button>
+                    <button class="sub-nav-button py-3 px-4 text-md font-medium text-gray-500 hover:text-amber-600" onclick="showAdvancedSlide('advanced-slide-2')">Virtual Inputs</button>
+                    <button class="sub-nav-button py-3 px-4 text-md font-medium text-gray-500 hover:text-amber-600" onclick="showAdvancedSlide('advanced-slide-3')">Shortcuts</button>
+                    <button class="sub-nav-button py-3 px-4 text-md font-medium text-gray-500 hover:text-amber-600" onclick="showAdvancedSlide('advanced-slide-4')">Advanced Audio</button>
+                    <button class="sub-nav-button py-3 px-4 text-md font-medium text-gray-500 hover:text-amber-600" onclick="showAdvancedSlide('advanced-slide-5')">NDI & SRT</button>
+                    <button class="sub-nav-button py-3 px-4 text-md font-medium text-gray-500 hover:text-amber-600" onclick="showAdvancedSlide('advanced-slide-6')">Troubleshooting</button>
+                </nav>
+
+                <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
+                    <div id="advanced-slide-1" class="advanced-slide active">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Multi-Layering & Overlays</h3>
+                        <p class="text-gray-700 mb-4">vMix allows you to combine multiple inputs into a single output, creating rich, dynamic scenes. Think of it like stacking transparent sheets on top of each other.</p>
+                        <div class="flex flex-col items-center justify-center space-y-2 mt-6">
+                            <div class="w-64 h-40 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-lg">
+                                Background Video
+                            </div>
+                            <div class="w-48 h-32 bg-green-500 rounded-lg shadow-lg -mt-16 flex items-center justify-center text-white font-bold text-md opacity-90">
+                                Camera (PiP)
+                            </div>
+                            <div class="w-full max-w-xs h-12 bg-gray-700 rounded-lg shadow-xl -mt-8 flex items-center justify-center text-white font-bold text-sm opacity-95">
+                                Lower Third Graphic
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-4 text-center">Combine video, camera feeds, and graphics for professional layouts.</p>
+                    </div>
+
+                    <div id="advanced-slide-2" class="advanced-slide">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Virtual Inputs & Sets</h3>
+                        <p class="text-gray-700 mb-4">Virtual Inputs are powerful tools to create complex scenes or virtual sets. You can combine multiple sources (like a green screen camera and a virtual background) into one "super input" that you can then switch to.</p>
+                        <div class="flex items-center justify-center space-x-4 mt-6">
+                            <div class="flex flex-col items-center">
+                                <span class="text-5xl">👤</span>
+                                <p class="text-sm text-gray-600">Green Screen</p>
+                            </div>
+                            <span class="text-4xl text-amber-500">+</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-5xl">🏞️</span>
+                                <p class="text-sm text-gray-600">Virtual Background</p>
+                            </div>
+                            <span class="text-4xl text-amber-500">=</span>
+                            <div class="flex flex-col items-center">
+                                <span class="text-5xl">📺</span>
+                                <p class="text-sm text-gray-600">Virtual Input</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-4 text-center">Create dynamic scenes by combining elements into a single input.</p>
+                    </div>
+
+                    <div id="advanced-slide-3" class="advanced-slide">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Shortcuts & Efficiency</h3>
+                        <p class="text-gray-700 mb-4">For fast-paced live production, mastering keyboard shortcuts (Hotkeys) is essential. vMix allows you to assign custom shortcuts to almost any function, from switching inputs to controlling audio.</p>
+                        <div class="bg-gray-100 p-4 rounded-lg mt-6">
+                            <p class="font-bold text-gray-800 mb-2">Common Hotkey Examples:</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>`F1-F12`: Assign to inputs for quick switching.</li>
+                                <li>`Spacebar`: Quick Cut transition.</li>
+                                <li>`Ctrl + F`: Fade transition.</li>
+                                <li>`Ctrl + M`: Mute Master Audio.</li>
+                            </ul>
+                            <p class="text-sm text-gray-600 mt-3">Explore the "Settings > Shortcuts" menu to customize your workflow.</p>
+                        </div>
+                    </div>
+
+                    <div id="advanced-slide-4" class="advanced-slide">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Advanced Audio Mixing</h3>
+                        <p class="text-gray-700 mb-4">Beyond simple volume control, vMix offers powerful audio features to fine-tune your sound.</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mt-6">
+                            <li><strong>Audio Buses (A, B, Master):</strong> Send different audio mixes to different outputs (e.g., a clean feed to a recording, a mix-minus to a remote guest).</li>
+                            <li><strong>Audio Delay:</strong> Synchronize audio with video if there's a slight lag.</li>
+                            <li><strong>Audio Follow Video:</strong> Automatically adjust audio levels or mute/unmute inputs based on which video input is live.</li>
+                            <li><strong>Plugins:</strong> Apply VST audio plugins for compression, EQ, noise reduction, and more.</li>
+                        </ul>
+                    </div>
+
+                    <div id="advanced-slide-5" class="advanced-slide">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">NDI & Network Video</h3>
+                        <p class="text-gray-700 mb-4">NDI (Network Device Interface) and SRT (Secure Reliable Transport) are protocols that allow you to send high-quality video and audio over a standard computer network, greatly expanding your production capabilities without needing physical cables for every source.</p>
+                        <div class="flex items-center justify-center space-x-6 mt-6">
+                            <div class="text-center">
+                                <span class="text-6xl">💻</span>
+                                <p class="text-sm text-gray-600">Computer 1</p>
+                            </div>
+                            <span class="text-5xl text-amber-500">↔️</span>
+                            <div class="text-center">
+                                <span class="text-6xl">💻</span>
+                                <p class="text-sm text-gray-600">Computer 2</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-4 text-center">Seamlessly share video and audio across your network.</p>
+                    </div>
+
+                    <div id="advanced-slide-6" class="advanced-slide">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Troubleshooting & Best Practices</h3>
+                        <p class="text-gray-700 mb-4">Even seasoned producers encounter issues. Here are some tips to keep your production smooth:</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mt-6">
+                            <li><strong>Performance:</strong> Close unnecessary programs, ensure your computer meets minimum specs, and monitor CPU/GPU usage in vMix.</li>
+                            <li><strong>Audio Issues:</strong> Check input levels, ensure correct device selection, and use headphones for monitoring.</li>
+                            <li><strong>Video Lag/Stutter:</strong> Verify camera drivers, check cable connections, and reduce resolution/framerate if needed.</li>
+                            <li><strong>Pre-Production Checklist:</strong> Always test all inputs, audio, and outputs before going live. Have backups!</li>
+                            <li><strong>Stay Updated:</strong> Keep vMix and your drivers updated for best performance and new features.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
         </main>
 
     </div>
@@ -320,6 +453,11 @@
 
             document.getElementById(sectionId).classList.add('active');
             document.querySelector(`[onclick="showSection('${sectionId}')"]`).classList.add('active');
+
+            // If navigating to the advanced section, show the first slide by default
+            if (sectionId === 'section5') {
+                showAdvancedSlide('advanced-slide-1');
+            }
         }
         
         // Input Modal Logic
@@ -422,9 +560,26 @@
             });
         });
 
+        // Advanced Slides Logic
+        const advancedSlides = document.querySelectorAll('.advanced-slide');
+        const subNavButtons = document.querySelectorAll('.sub-nav-button');
+
+        function showAdvancedSlide(slideId) {
+            advancedSlides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            subNavButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById(slideId).classList.add('active');
+            document.querySelector(`[onclick="showAdvancedSlide('${slideId}')"]`).classList.add('active');
+        }
+
         // Initialize first section
         document.addEventListener('DOMContentLoaded', () => {
             showSection('section1');
+            showAdvancedSlide('advanced-slide-1'); // Ensure first advanced slide is active when section is shown
         });
     </script>
 </body>
